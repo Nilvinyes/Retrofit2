@@ -1,8 +1,11 @@
 package campalans.m08.retrofit2
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
@@ -59,11 +62,16 @@ class MainActivity : AppCompatActivity() {
             if (myRespone.isSuccessful)
             {
                 val response: SuperHeroDataResponse? = myRespone.body()
-                if (response != null)
+                if (response != null && response.superheroes != null)
                 {
                     runOnUiThread {
                         Adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible = false
+                    }
+                }
+                else {
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, "No existeix cap personatje amb aquest nom", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -84,4 +92,5 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(EXTRA_ID, id)
         startActivity(intent)
     }
+
 }

@@ -2,6 +2,7 @@ package campalans.m08.retrofit2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import campalans.m08.retrofit2.databinding.ActivityDetailSuperHeroBinding
@@ -61,9 +62,17 @@ class DetailSuperHeroActivity : AppCompatActivity() {
 
     private fun updateHeight(view: View, stat: String)
     {
-        val Params = view.layoutParams
-        Params.height = pxToDp(stat.toFloat())
-        view.layoutParams = Params
+        Log.e("MainActivity", stat ?: "null")
+        val layoutParams = view.layoutParams
+
+        if (stat == null) {
+            layoutParams.height = pxToDp(0f)
+            view.layoutParams = layoutParams
+        } else {
+            val statFloat = stat.toFloatOrNull() ?: 0f
+            layoutParams.height = pxToDp(statFloat)
+            view.layoutParams = layoutParams
+        }
     }
 
     private fun getRetrofit(): Retrofit
